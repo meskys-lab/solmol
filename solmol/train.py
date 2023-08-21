@@ -7,11 +7,12 @@ import pandas as pd
 import torch
 import yaml
 from torch import nn
+import loralib as lora
 
 from solmol.data.dataloader import get_dataloaders
 from solmol.learner import get_learner
 from solmol.model.solubility_model import get_model
-from solmol.model.utils import freeze_backbone, unfreeze
+from solmol.model.utils import freeze_backbone, unfreeze, unfreeze_head
 
 
 def parse_train_args():
@@ -54,9 +55,9 @@ def train(args):
 
     training_schedule(learner, args)
 
-    learner.save(model_name)
+    path = learner.save(model_name)
 
-    logging.info(f"Model has been save: {Path(learner.model_dir) / model_name}.pth")
+    logging.info(f"Model has been save: {path}")
 
 
 def get_model_name(model: nn.Module) -> str:
@@ -71,7 +72,6 @@ def save_config(learner, name: str) -> None:
         yaml.dump(vars(args), file)
 
 
-
 def training_schedule(learner, args) -> None:
     freeze_backbone(learner.model)
     lr = learner.lr_find().valley
@@ -79,6 +79,10 @@ def training_schedule(learner, args) -> None:
     learner.fit(args.initial_epochs, lr=lr, reset_opt=True)
 
     unfreeze(learner.model)
+
+    if args.use_lora:
+        lora.mark_only_lora_as_trainable(learner.model)
+        unfreeze_head(learner.model)
 
     lr_init = learner.lr_find().valley
     for i in range(args.n_one_cycles):

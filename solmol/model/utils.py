@@ -18,7 +18,7 @@ def freeze_backbone(model: nn.Module) -> None:
         if n.startswith("backbone"):
             p.requires_grad = False
 
-    print(f"Model has {get_trainable_parameters(model)} parameters")
+    logging.info(f"Model has {get_trainable_parameters(model)} parameters")
 
 
 def freeze_embeddings(model: nn.Module) -> None:
@@ -26,14 +26,14 @@ def freeze_embeddings(model: nn.Module) -> None:
         if 'backbone.embed_tokens' in n:
             p.requires_grad = False
 
-    print(f"Model has {get_trainable_parameters(model)} parameters")
+    logging.info(f"Model has {get_trainable_parameters(model)} parameters")
 
 
 def unfreeze(model: nn.Module) -> None:
     for n, p in model.named_parameters():
         p.requires_grad = True
 
-    print(f"Model has {get_trainable_parameters(model)} parameters")
+    logging.info(f"Model has {get_trainable_parameters(model)} parameters")
 
 
 def unfreeze_head(model: nn.Module) -> None:
@@ -41,7 +41,7 @@ def unfreeze_head(model: nn.Module) -> None:
         if n.startswith("head"):
             p.requires_grad = True
 
-    print(f"Model has {get_trainable_parameters(model)} parameters")
+    logging.info(f"Model has {get_trainable_parameters(model)} parameters")
 
 
 def upgrade_state_dict(state_dict: dict):
