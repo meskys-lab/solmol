@@ -9,7 +9,9 @@ easily trained on data obtain from high throughput testing. On testing data (ran
 can be seen in the table below:
 
 
-TODO
+| Loss     | Accuracy (%) | AUC ROC  |
+|----------|--------------|----------|
+| 0.746115 | 54.834438    | 0.547634 |
 
 
 
