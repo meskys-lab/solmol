@@ -42,10 +42,10 @@ weights as well as path to fasta file.
 Note: predictions are run on GPU.
 
 ```
-python -m solmol.predict --model models/TODO --fasta example/to_predict.fasta
+python -m solmol.predict --model models/EsmSolubilityRep_2023_08_21_14_02.pth --fasta example/to_predict.fasta
 
 ```
 
 ## Interpretation of the results
 The default output of the program is a csv file which contains sequence id and sequence itself from fasta file.
-The last column is the prediction of solubility of the model .
+The last column is the prediction (probability) of solubility of the model .
