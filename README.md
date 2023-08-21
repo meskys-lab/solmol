@@ -46,4 +46,4 @@ python -m solmol.predict --model models/TODO --fasta example/to_predict.fasta
 
 ## Interpretation of the results
 The default output of the program is a csv file which contains sequence id and sequence itself from fasta file.
-The last column is the prediction of solublity of the model .
+The last column is the prediction of solubility of the model .

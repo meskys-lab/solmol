@@ -59,7 +59,7 @@ def make_predictions(model: nn.Module, pred_dataloader: DataLoader) -> dict:
     results = {"ids": [], "sequence": [], "prediction": []}
     with torch.no_grad():
         for b in pred_dataloader:
-            output = model(b[2].to('cuda'))
+            output = model(b[2].to('cuda')).sigmoid()
             output = output.detach().cpu().numpy()
             output = [output] if output.shape == () else output
             results["ids"].extend(b[0])
